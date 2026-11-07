@@ -223,7 +223,7 @@ export default function Countdown() {
     rm ? {} : {
       initial:    { opacity: 0, y: 30 },
       animate:    isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 },
-      transition: { duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
     };
 
   if (isPast) {
