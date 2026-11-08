@@ -13,6 +13,7 @@ import ScrollProgress from "./ScrollProgress";
 import PetalRain from "./PetalRain";
 import ClickHearts from "./ClickHearts";
 import CustomCursor from "./CustomCursor";
+import MusicToggle from "./MusicToggle";
 
 interface Props {
   brideName: string;
@@ -32,6 +33,7 @@ export default function InvitationPage({ guestId, guestName, ...props }: Props) 
       <ClickHearts />
       <CustomCursor />
       <ScrollProgress />
+      <MusicToggle />
       <HeroSection {...props} onRevealed={() => setRevealed(true)} />
       <AnimatePresence>
         {revealed && (

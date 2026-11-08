@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useReducedMotion, useMotionValue, useTransform
 import { useState, useEffect, useRef } from "react";
 import { useInvite } from "./InviteContext";
 import InvitationPage from "./InvitationPage";
+import { startMusic } from "@/lib/music";
 import GuestNotFound from "./GuestNotFound";
 
 interface EnvelopeRevealProps {
@@ -169,6 +170,7 @@ export default function EnvelopeReveal({ guestName, guestId, relation, invalidId
     if (isOpen) return;
     animate(split, 1, { duration: 0.25 });
     setIsOpen(true);
+    startMusic();
     try { navigator.vibrate?.([25, 35, 25]); } catch { /* not supported */ }
   }
 

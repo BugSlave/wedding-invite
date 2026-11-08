@@ -8,7 +8,31 @@ import { downloadIcs, googleCalendarUrl } from "@/lib/calendar";
 
 type GeoState = "idle" | "locating" | "done" | "denied";
 
-const GOLD = "linear-gradient(135deg, #5c1520 0%, #8b2234 28%, #a83040 50%, #8b2234 72%, #5c1520 100%)";
+const GOLD = "linear-gradient(135deg, var(--ec-dark) 0%, var(--ec-accent) 28%, var(--ec-mid) 50%, var(--ec-accent) 72%, var(--ec-dark) 100%)";
+
+type EventTheme = NonNullable<EventDetail["theme"]>;
+
+// Colours per card theme. "rgb" values are space-separated so CSS can add alpha.
+const THEMES: Record<EventTheme, {
+  accent: string; dark: string; mid: string; muted: string;
+  rgb: string; shadow: string; bg: string;
+  btnBg: string; btnText: string; btnShadow: string;
+}> = {
+  default: {
+    accent: "#8b2234", dark: "#5c1520", mid: "#a83040", muted: "#8c4a56",
+    rgb: "139 34 52", shadow: "92 21 32",
+    bg: "linear-gradient(145deg, #faf5e5 0%, #f5edd5 55%, #eee3c0 100%)",
+    btnBg: "linear-gradient(135deg, #A86C00 0%, #F0C040 45%, #FFE040 55%, #F0C040 70%, #A86C00 100%)",
+    btnText: "#2A0005", btnShadow: "212 175 55",
+  },
+  lavender: {
+    accent: "#7c5cbf", dark: "#3d2a63", mid: "#9b7fd4", muted: "#7a6a9a",
+    rgb: "124 92 191", shadow: "61 42 99",
+    bg: "linear-gradient(145deg, #faf7ff 0%, #f1e9fc 55%, #e5d8f7 100%)",
+    btnBg: "linear-gradient(135deg, #7c5cbf 0%, #a98be0 45%, #c4aef0 55%, #a98be0 70%, #7c5cbf 100%)",
+    btnText: "#ffffff", btnShadow: "155 127 212",
+  },
+};
 
 function openDirections(destination: string, position?: GeolocationPosition) {
   const dest = encodeURIComponent(destination);
@@ -60,14 +84,14 @@ function TearLine({ vertical }: { vertical: boolean }) {
         width: 1,
         alignSelf: "stretch",
         flexShrink: 0,
-        background: "repeating-linear-gradient(to bottom, rgba(139,34,52,0.35) 0px, rgba(139,34,52,0.35) 5px, transparent 5px, transparent 11px)",
+        background: "repeating-linear-gradient(to bottom, rgb(var(--ec-rgb) / 0.35) 0px, rgb(var(--ec-rgb) / 0.35) 5px, transparent 5px, transparent 11px)",
       }} />
     );
   }
   return (
     <div style={{
       height: 1,
-      background: "repeating-linear-gradient(to right, rgba(139,34,52,0.30) 0px, rgba(139,34,52,0.30) 5px, transparent 5px, transparent 11px)",
+      background: "repeating-linear-gradient(to right, rgb(var(--ec-rgb) / 0.30) 0px, rgb(var(--ec-rgb) / 0.30) 5px, transparent 5px, transparent 11px)",
     }} />
   );
 }
@@ -88,6 +112,7 @@ export default function EventCard({
   const [geoState, setGeoState] = useState<GeoState>("idle");
 
   const { couple } = useInvite();
+  const t = THEMES[event.theme ?? "default"];
   const icon = getIcon(event.name);
   const { month, day, year, dayOfWeek } = parseDateParts(event.dateTimeISO);
   const city = extractCity(event.address);
@@ -118,17 +143,22 @@ export default function EventCard({
       transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={rm ? {} : {
         y: -6,
-        boxShadow: "0 0 0 3px rgba(139,34,52,0.15), 0 24px 60px rgba(92,21,32,0.22)",
+        boxShadow: `0 0 0 3px rgb(${t.rgb} / 0.15), 0 24px 60px rgb(${t.shadow} / 0.22)`,
         transition: { duration: 0.25, ease: "easeOut" },
       }}
       className={featured ? "event-card-shimmer" : undefined}
       style={{
-        background:   "linear-gradient(145deg, #faf5e5 0%, #f5edd5 55%, #eee3c0 100%)",
+        background:   t.bg,
+        // Theme colours for this card (also read by the .ec-btn-* classes)
+        ...({
+          "--ec-accent": t.accent, "--ec-dark": t.dark, "--ec-mid": t.mid, "--ec-muted": t.muted,
+          "--ec-rgb": t.rgb, "--ec-btn-bg": t.btnBg, "--ec-btn-text": t.btnText, "--ec-btn-shadow": t.btnShadow,
+        } as React.CSSProperties),
         borderRadius: 18,
-        border:       `1.5px solid rgba(139,34,52,${featured ? "0.55" : "0.30"})`,
+        border:       `1.5px solid rgb(var(--ec-rgb) / ${featured ? "0.55" : "0.30"})`,
         boxShadow:    featured
-          ? "0 0 0 5px rgba(139,34,52,0.06), 0 20px 60px rgba(92,21,32,0.18)"
-          : "0 8px 36px rgba(92,21,32,0.12)",
+          ? `0 0 0 5px rgb(${t.rgb} / 0.06), 0 20px 60px rgb(${t.shadow} / 0.18)`
+          : `0 8px 36px rgb(${t.shadow} / 0.12)`,
         overflow:  "hidden",
         position:  "relative",
         maxWidth:  620,
@@ -143,11 +173,11 @@ export default function EventCard({
         display:        "flex",
         alignItems:     "center",
         justifyContent: "space-between",
-        background:     "rgba(139,34,52,0.06)",
-        borderBottom:   "1px solid rgba(139,34,52,0.18)",
+        background:     "rgb(var(--ec-rgb) / 0.06)",
+        borderBottom:   "1px solid rgb(var(--ec-rgb) / 0.18)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <span style={{ color: "#8b2234", fontSize: 9 }}>✦</span>
+          <span style={{ color: "var(--ec-accent)", fontSize: 9 }}>✦</span>
           <span style={{
             fontSize:      9,
             letterSpacing: "0.50em",
@@ -161,7 +191,7 @@ export default function EventCard({
           }}>
             Shaadi Pass
           </span>
-          <span style={{ color: "#8b2234", fontSize: 9 }}>✦</span>
+          <span style={{ color: "var(--ec-accent)", fontSize: 9 }}>✦</span>
         </div>
 
         {featured && (
@@ -169,11 +199,11 @@ export default function EventCard({
             fontSize:      8,
             letterSpacing: "0.28em",
             textTransform: "uppercase",
-            color:         "#8b2234",
-            background:    "rgba(139,34,52,0.08)",
+            color:         "var(--ec-accent)",
+            background:    "rgb(var(--ec-rgb) / 0.08)",
             padding:       "3px 10px",
             borderRadius:  999,
-            border:        "1px solid rgba(139,34,52,0.25)",
+            border:        "1px solid rgb(var(--ec-rgb) / 0.25)",
             fontFamily:    "var(--font-body), sans-serif",
           }}>
             Main Event
@@ -193,7 +223,7 @@ export default function EventCard({
           alignItems:     "center",
           justifyContent: "center",
           padding:        "22px 8px 20px",
-          background:     "rgba(139,34,52,0.05)",
+          background:     "rgb(var(--ec-rgb) / 0.05)",
           gap:            0,
           textAlign:      "center",
         }}>
@@ -202,7 +232,7 @@ export default function EventCard({
             fontSize:      7.5,
             letterSpacing: "0.35em",
             textTransform: "uppercase",
-            color:         "#8c4a56",
+            color:         "var(--ec-muted)",
             margin:        0,
             fontFamily:    "var(--font-body), sans-serif",
           }}>
@@ -214,7 +244,7 @@ export default function EventCard({
             fontSize:      12,
             fontWeight:    700,
             letterSpacing: "0.20em",
-            color:         "#8b2234",
+            color:         "var(--ec-accent)",
             margin:        "7px 0 0",
             fontFamily:    "var(--font-body), sans-serif",
           }}>
@@ -240,7 +270,7 @@ export default function EventCard({
           {/* Year */}
           <p style={{
             fontSize:   10,
-            color:      "#8c4a56",
+            color:      "var(--ec-muted)",
             margin:     "5px 0 0",
             fontFamily: "var(--font-body), sans-serif",
             letterSpacing: "0.05em",
@@ -252,15 +282,15 @@ export default function EventCard({
           <div style={{
             width:      38,
             height:     1,
-            background: "rgba(139,34,52,0.20)",
+            background: "rgb(var(--ec-rgb) / 0.20)",
             margin:     "12px 0 10px",
           }} />
 
           {/* Floral ornament */}
-          <p style={{ fontSize: 12, color: "#8b2234", margin: 0, letterSpacing: 3, lineHeight: 1 }}>
+          <p style={{ fontSize: 12, color: "var(--ec-accent)", margin: 0, letterSpacing: 3, lineHeight: 1 }}>
             ✿ ❁ ✿
           </p>
-          <p style={{ fontSize: 9,  color: "#8c4a56", margin: "4px 0 0", letterSpacing: 2 }}>
+          <p style={{ fontSize: 9,  color: "var(--ec-muted)", margin: "4px 0 0", letterSpacing: 2 }}>
             ✦ ꕥ ✦
           </p>
         </div>
@@ -286,7 +316,7 @@ export default function EventCard({
                 fontSize:      "clamp(18px, 3.5vw, 24px)",
                 fontWeight:    700,
                 fontStyle:     "italic",
-                color:         "#5c1520",
+                color:         "var(--ec-dark)",
                 margin:        0,
                 lineHeight:    1.2,
                 letterSpacing: "-0.01em",
@@ -298,7 +328,7 @@ export default function EventCard({
             {/* Day · Time */}
             <p style={{
               fontSize:      12,
-              color:         "#8b2234",
+              color:         "var(--ec-accent)",
               margin:        "0 0 13px",
               fontFamily:    "var(--font-body), sans-serif",
               fontWeight:    500,
@@ -311,10 +341,10 @@ export default function EventCard({
             <div style={{ display: "flex", gap: 7, alignItems: "flex-start", marginBottom: 20 }}>
               <span style={{ fontSize: 12, marginTop: 1, opacity: 0.75, flexShrink: 0 }}>📍</span>
               <div>
-                <p style={{ fontSize: 13, fontWeight: 500, color: "#5c1520", margin: 0, lineHeight: 1.4 }}>
+                <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ec-dark)", margin: 0, lineHeight: 1.4 }}>
                   {event.venue}
                 </p>
-                <p style={{ fontSize: 11, color: "#8c4a56", margin: "2px 0 0", lineHeight: 1.55 }}>
+                <p style={{ fontSize: 11, color: "var(--ec-muted)", margin: "2px 0 0", lineHeight: 1.55 }}>
                   {event.address}
                 </p>
               </div>
@@ -364,25 +394,25 @@ export default function EventCard({
         display:        "flex",
         alignItems:     "center",
         justifyContent: "space-between",
-        background:     "rgba(139,34,52,0.06)",
+        background:     "rgb(var(--ec-rgb) / 0.06)",
         gap:            12,
         flexWrap:       "wrap",
       }}>
         <p style={{
           fontFamily: "var(--font-display), serif",
           fontSize:   13,
-          color:      "#5c1520",
+          color:      "var(--ec-dark)",
           margin:     0,
           whiteSpace: "nowrap",
         }}>
-          <span style={{ color: "#8b2234", marginRight: 6 }}>ꕥ</span>
+          <span style={{ color: "var(--ec-accent)", marginRight: 6 }}>ꕥ</span>
           {couple.groomName} &amp; {couple.brideName}
-          <span style={{ color: "#8b2234", marginLeft: 6 }}>ꕥ</span>
+          <span style={{ color: "var(--ec-accent)", marginLeft: 6 }}>ꕥ</span>
         </p>
 
         <p style={{
           fontSize:   11,
-          color:      "#8c4a56",
+          color:      "var(--ec-muted)",
           margin:     0,
           fontFamily: "var(--font-body), sans-serif",
           display:    "flex",

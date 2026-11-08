@@ -52,7 +52,10 @@ export const inviteData: InviteData = {
       id: "our-story",
       chapterNumber: "01",
       title: "Our Story",
-      body: "Yahan apni story likho...",
+      body:
+        "Every love story has a beginning, and ours started with a little eye contact, a sweet hello, and a few unexpected conversations. What began with simple talks soon turned into endless chats, silly smiles, cute little moments, and a special bond.\n\n" +
+        "Before we knew it, we had become each other’s favourite notification, favourite person, and happiest place.\n\n" +
+        "And now, two hearts, one beautiful story, and a lifetime of adventures await!",
       mood: "romantic",
     },
   ],
@@ -75,6 +78,16 @@ export const inviteData: InviteData = {
   },
 
   additionalEvents: [
+    {
+      id: "haldi",
+      name: "Haldi",
+      date: "December 10, 2026",
+      time: "10:30 AM onwards",
+      dateTimeISO: "2026-12-10T10:30:00+05:30",
+      venue: "Surya Banquet Hall",
+      address: "Bareilly, Uttar Pradesh",
+      theme: "lavender",
+    },
     {
       id: "marriage",
       name: "Marriage",

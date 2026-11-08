@@ -38,6 +38,7 @@ export interface EventDetail {
   mapsUrl?: string; // if omitted, one is generated from address
   durationHours?: number; // used for calendar end time; defaults to 3
   illustration?: string;
+  theme?: "default" | "lavender"; // colour theme of the event card
 }
 
 export interface GalleryPhoto {
