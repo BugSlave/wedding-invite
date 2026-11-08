@@ -107,9 +107,9 @@ export const inviteData: InviteData = {
   },
 
   social: {
-    title: "[GROOM NAME] & [BRIDE NAME] are getting engaged!",
-    description: "Join us to celebrate on [DATE] at [VENUE].",
-    imagePath: "/images/social-preview.jpg", // add this image before deploying
+    title: "Ram & Mansi are getting engaged!",
+    description: "Join us to celebrate on December 8, 2026 at Club Riviera, Bareilly.",
+    imagePath: "/images/social-preview.jpg",
     themeColor: "#D97757",
   },
 
