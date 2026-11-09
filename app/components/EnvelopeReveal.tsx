@@ -5,15 +5,6 @@ import { useState, useEffect, useRef } from "react";
 import { useInvite } from "./InviteContext";
 import InvitationPage from "./InvitationPage";
 import { startMusic } from "@/lib/music";
-import GuestNotFound from "./GuestNotFound";
-
-interface EnvelopeRevealProps {
-  guestName: string | null;
-  guestId?: string | null;
-  relation?: string | null;
-  invalidId: boolean;
-  allowWithoutGuest?: boolean;
-}
 
 const MAX_W = 460;
 const MAX_H = 300;
@@ -147,7 +138,7 @@ function ScreenCorner({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
   );
 }
 
-export default function EnvelopeReveal({ guestName, guestId, relation, invalidId, allowWithoutGuest = false }: EnvelopeRevealProps) {
+export default function EnvelopeReveal() {
   const [isOpen, setIsOpen] = useState(false);
   const [phase, setPhase] = useState<"envelope" | "hero">("envelope");
   const rm = useReducedMotion();
@@ -217,19 +208,12 @@ export default function EnvelopeReveal({ guestName, guestId, relation, invalidId
   const { w: W, h: H } = useEnvelopeSize();
   const FH = Math.round(H * FH_RATIO);
 
-  // Longer names take a little longer to "write".
-  const writeDuration = Math.min(2.6, Math.max(1.2, ((guestName?.length ?? 0) + 4) * 0.1));
-
-  // Wrong id → never show. No id → only allowed on localhost.
-  if (invalidId || (!guestName && !allowWithoutGuest)) return <GuestNotFound />;
 
   return (
     <AnimatePresence mode="wait">
       {phase === "hero" ? (
         <InvitationPage
           key="hero"
-          guestId={guestId}
-          guestName={guestName}
           brideName={couple.brideName}
           groomName={couple.groomName}
           date={marriageDate}
@@ -315,82 +299,12 @@ export default function EnvelopeReveal({ guestName, guestId, relation, invalidId
             style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginBottom: 44 }}
           >
             <FloralRow />
-            {guestName ? (
-              <>
-                {/* "Hi {name}," — written out left→right like a pen, with a sparkle at the nib */}
-                <div style={{ position: "relative", display: "inline-block", maxWidth: "90vw" }}>
-                  <motion.p
-                    initial={rm ? false : { clipPath: "inset(-15% 100% -15% -2%)" }}
-                    animate={{ clipPath: "inset(-15% -2% -15% -2%)" }}
-                    transition={{ duration: writeDuration, delay: 0.9, ease: [0.45, 0.05, 0.35, 1] }}
-                    style={{
-                      fontFamily: "var(--font-accent), cursive",
-                      fontSize: "clamp(40px, 11vw, 64px)",
-                      fontWeight: 400,
-                      lineHeight: 1.15,
-                      margin: 0,
-                      textAlign: "center",
-                      overflowWrap: "anywhere",
-                      background: "linear-gradient(135deg, #5c1520 0%, #8b2234 30%, #a83040 50%, #8b2234 70%, #5c1520 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      padding: "0 6px",
-                    }}
-                  >
-                    Hi {guestName},
-                  </motion.p>
-                  {!rm && (
-                    <motion.span
-                      aria-hidden
-                      initial={{ left: "0%", opacity: 0 }}
-                      animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
-                      transition={{ duration: writeDuration, delay: 0.9, ease: [0.45, 0.05, 0.35, 1], opacity: { times: [0, 0.08, 0.9, 1], duration: writeDuration, delay: 0.9 } }}
-                      style={{
-                        position: "absolute", top: "55%", marginLeft: -6, color: "#E8BA50", fontSize: 18, lineHeight: 1,
-                        textShadow: "0 0 10px rgba(232,186,80,0.9)", pointerEvents: "none",
-                      }}
-                    >
-                      ✦
-                    </motion.span>
-                  )}
-                </div>
-                <motion.p
-                  initial={rm ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.9 + writeDuration + 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  style={{
-                    fontFamily: "var(--font-accent), cursive",
-                    fontSize: "clamp(24px, 6.5vw, 34px)",
-                    color: "#8b2234",
-                    margin: 0,
-                    lineHeight: 1.2,
-                  }}
-                >
-                  You are invited
-                </motion.p>
-                {relation && (
-                  <motion.p
-                    initial={rm ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.9 + writeDuration + 0.7 }}
-                    style={{
-                      fontFamily: "var(--font-display), serif", fontStyle: "italic",
-                      fontSize: 13, color: "#8c4a56", margin: "2px 0 0", textAlign: "center", maxWidth: "80vw",
-                    }}
-                  >
-                    {relation}
-                  </motion.p>
-                )}
-              </>
-            ) : (
-              <p style={{
+            <p style={{
                 fontSize: 10, letterSpacing: "0.42em", textTransform: "uppercase",
                 color: "#5c1520", fontFamily: "var(--font-body), sans-serif",
               }}>
                 You&rsquo;ve received an invitation
               </p>
-            )}
             <FloralRow />
           </motion.div>
 
@@ -467,7 +381,7 @@ export default function EnvelopeReveal({ guestName, guestId, relation, invalidId
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                   }}>
-                    {couple.groomName} &amp; {couple.brideName}
+                    {couple.groomFullName ?? couple.groomName} &amp; {couple.brideFullName ?? couple.brideName}
                   </p>
                 </div>
 
@@ -497,23 +411,11 @@ export default function EnvelopeReveal({ guestName, guestId, relation, invalidId
                   </div>
                   <p style={{
                     fontSize: 8, letterSpacing: "0.35em", textTransform: "uppercase",
-                    color: "#5c1520", marginBottom: guestName ? 6 : 11, textAlign: "center",
+                    color: "#5c1520", marginBottom: 11, textAlign: "center",
                     fontFamily: "var(--font-body), sans-serif",
                   }}>
                     With love, we invite you
                   </p>
-                  {guestName && (
-                    <p style={{
-                      fontFamily: "var(--font-accent), cursive",
-                      fontSize: `clamp(16px, ${(22 / MAX_W) * 100}vw, 22px)`,
-                      color: "#5c1520",
-                      textAlign: "center",
-                      lineHeight: 1.2,
-                      marginBottom: 8,
-                    }}>
-                      Dear {guestName},
-                    </p>
-                  )}
                   <p style={{
                     fontFamily: "var(--font-display), serif",
                     fontSize: `clamp(17px, ${(24 / MAX_W) * 100}vw, 24px)`,

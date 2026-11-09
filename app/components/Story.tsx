@@ -20,7 +20,7 @@ function CoupleCircle({
 }) {
   const rm   = useReducedMotion();
   const ref  = useRef(null);
-  // amount: 0.05 — barely visible pe trigger, mobile ke liye reliable
+  // amount: 0.05 — triggers when barely visible, reliable on mobile
   const inView = useInView(ref, { once: false, amount: 0.05 });
 
   const size  = 100;
@@ -31,7 +31,7 @@ function CoupleCircle({
       ref={ref}
       style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}
     >
-      {/* Outer glow ring — parent ke inView se animate */}
+      {/* Outer glow ring — animates from the parent's inView */}
       <motion.div
         initial={rm ? {} : { opacity: 0, x: fromX, scale: 0.72 }}
         animate={
@@ -209,28 +209,6 @@ export default function Story() {
           The Story of
         </motion.p>
 
-        <div style={{ overflow: "hidden" }}>
-          <motion.h2
-            initial={rm ? false : { y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: false, amount: 0.05 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontFamily: "var(--font-accent), cursive",
-              fontSize: "clamp(40px, 8vw, 72px)",
-              fontWeight: 400,
-              background: GOLD,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              margin: 0,
-              filter: "drop-shadow(0 0 14px rgba(139,34,52,0.18))",
-            }}
-          >
-            {couple.groomName} &amp; {couple.brideName}
-          </motion.h2>
-        </div>
-
         <GoldDivider />
       </div>
 
@@ -262,9 +240,9 @@ export default function Story() {
           }}
         />
 
-        <CoupleCircle name={couple.groomName} image={couple.groomImage} side="left" />
+        <CoupleCircle name={couple.groomFullName ?? couple.groomName} image={couple.groomImage} side="left" />
         <CenterLotus />
-        <CoupleCircle name={couple.brideName} image={couple.brideImage} side="right" />
+        <CoupleCircle name={couple.brideFullName ?? couple.brideName} image={couple.brideImage} side="right" />
       </div>
 
       {/* Gold separator line before story */}

@@ -5,6 +5,7 @@ import { useInvite } from "./InviteContext";
 import EventCard from "@/app/components/EventCard";
 import BackgroundOrbs from "@/app/components/BackgroundOrbs";
 import SectionConfetti from "@/app/components/SectionConfetti";
+import { RevealHeading } from "@/app/components/SectionHeader";
 
 export default function Events() {
   const { mainEvent, additionalEvents } = useInvite();
@@ -47,24 +48,18 @@ export default function Events() {
           Mark Your Calendar
         </motion.p>
 
-        <div style={{ overflow: "hidden" }}>
-          <motion.h2
-            initial={rm ? false : { y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontFamily:    "var(--font-display), serif",
-              fontSize:      "clamp(28px, 5vw, 46px)",
-              fontWeight:    600,
-              color:         "#5c1520",
-              margin:        0,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Join the Celebration
-          </motion.h2>
-        </div>
+        <RevealHeading
+          style={{
+            fontFamily:    "var(--font-display), serif",
+            fontSize:      "clamp(28px, 5vw, 46px)",
+            fontWeight:    600,
+            color:         "#5c1520",
+            margin:        0,
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Join the Celebration
+        </RevealHeading>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 18 }}>
           <motion.div

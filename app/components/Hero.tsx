@@ -19,7 +19,7 @@ export default function Hero() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="mb-4 text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]"
       >
-        Okay&hellip; this finally happened
+        We are honoured to welcome you to the wedding ceremony of&hellip;
       </motion.p>
 
       <motion.h1
@@ -28,9 +28,9 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         className="font-display text-4xl leading-tight text-[var(--color-ink)] sm:text-6xl"
       >
-        {couple.brideName}
+        {couple.brideFullName ?? couple.brideName}
         <span className="mx-3 text-[var(--color-primary)]">&amp;</span>
-        {couple.groomName}
+        {couple.groomFullName ?? couple.groomName}
       </motion.h1>
 
       <motion.p

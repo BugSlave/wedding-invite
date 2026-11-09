@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getMusicState, subscribeMusic, toggleMute } from "@/lib/music";
+import { getMusicState, subscribeMusic, toggleMusic } from "@/lib/music";
 
 /** Small floating sound button (bottom-left). Hidden if the music file is missing. */
 export default function MusicToggle() {
-  const [state, setState] = useState({ muted: false, failed: false, playing: false });
+  const [state, setState] = useState({ failed: false, playing: false });
 
   useEffect(() => {
     const sync = () => setState(getMusicState());
@@ -14,11 +14,11 @@ export default function MusicToggle() {
   }, []);
 
   if (state.failed) return null;
-  const off = state.muted || !state.playing;
+  const off = !state.playing;
 
   return (
     <button
-      onClick={toggleMute}
+      onClick={toggleMusic}
       aria-label={off ? "Play music" : "Mute music"}
       style={{
         position: "fixed",

@@ -6,25 +6,22 @@ import HeroSection from "./HeroSection";
 import Story from "./Story";
 import Events from "./Events";
 import Gallery from "./Gallery";
-import RSVP from "./RSVP";
-import GuestWall from "./GuestWall";
-import Footer from "./Footer";
 import ScrollProgress from "./ScrollProgress";
 import PetalRain from "./PetalRain";
 import ClickHearts from "./ClickHearts";
 import CustomCursor from "./CustomCursor";
 import MusicToggle from "./MusicToggle";
+import Venue from "./Venue";
+import Closing from "./Closing";
 
 interface Props {
   brideName: string;
   groomName: string;
   date: string;
   venue: string;
-  guestId?: string | null;
-  guestName?: string | null;
 }
 
-export default function InvitationPage({ guestId, guestName, ...props }: Props) {
+export default function InvitationPage(props: Props) {
   const [revealed, setRevealed] = useState(false);
 
   return (
@@ -46,9 +43,8 @@ export default function InvitationPage({ guestId, guestName, ...props }: Props) 
             <Story />
             <Events />
             <Gallery />
-            <RSVP guestName={guestName} guestId={guestId} />
-            <GuestWall guestId={guestId} guestName={guestName} />
-            <Footer />
+            <Venue />
+            <Closing />
           </motion.div>
         )}
       </AnimatePresence>

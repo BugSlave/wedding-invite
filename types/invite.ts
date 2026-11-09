@@ -9,8 +9,12 @@ export interface ParentNames {
 export interface Couple {
   brideName: string;
   groomName: string;
+  brideFullName?: string; // shown in the hero, story header and link preview
+  groomFullName?: string;
   brideParents?: ParentNames;
   groomParents?: ParentNames;
+  brideSiblings?: string; // free text shown as given, e.g. "Brother – Name"
+  groomSiblings?: string;
   bridePersonality: string;
   groomPersonality: string;
   togetherDynamic: string;
@@ -49,14 +53,6 @@ export interface GalleryPhoto {
   aspect?: number;  // width / height; when set on every photo, they're shown uncropped
 }
 
-export interface RSVPConfig {
-  enabled: boolean;
-  deadlineISO?: string;
-  askGuestCount: boolean;
-  maxGuestsPerRSVP: number;
-  askMessage: boolean;
-}
-
 export interface SocialPreview {
   title: string;
   description: string;
@@ -83,8 +79,8 @@ export interface InviteData {
   gallery: GalleryPhoto[];
   mainEvent: EventDetail;
   additionalEvents: EventDetail[];
-  rsvp: RSVPConfig;
   social: SocialPreview;
+  sharingTheJoy?: string[]; // names for the closing "Sharing the joy" section
   contact: {
     name: string;
     phone?: string;

@@ -225,13 +225,14 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
         <motion.p
           variants={item}
           style={{
-            fontSize: 10, letterSpacing: "0.50em", textTransform: "uppercase",
+            fontSize: 10, letterSpacing: "0.34em", textTransform: "uppercase", lineHeight: 1.9,
+            maxWidth: 340, marginLeft: "auto", marginRight: "auto",
             color: "#8c4a56", marginBottom: 28,
             fontWeight: 600,
             fontFamily: "var(--font-body), sans-serif",
           }}
         >
-          Okay&hellip; this finally happened
+          We are honoured to welcome you to the wedding ceremony of&hellip;
         </motion.p>
 
         {/* Groom name — Great Vibes calligraphy */}
@@ -239,7 +240,7 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
           variants={item}
           style={{
             fontFamily: "var(--font-accent), cursive",
-            fontSize: "clamp(58px, 13vw, 112px)",
+            fontSize: "clamp(46px, 11vw, 96px)",
             fontWeight: 400,
             background: "linear-gradient(135deg, #5c1520 0%, #8b2234 28%, #a83040 50%, #8b2234 72%, #5c1520 100%)",
             WebkitBackgroundClip: "text",
@@ -250,7 +251,7 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
             filter: "drop-shadow(0 0 18px rgba(139,34,52,0.18))",
           }}
         >
-          {groomName}
+          {inviteData.couple.groomFullName ?? groomName}
         </motion.h1>
 
         {/* Groom parent names */}
@@ -288,7 +289,7 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
           variants={item}
           style={{
             fontFamily: "var(--font-accent), cursive",
-            fontSize: "clamp(58px, 13vw, 112px)",
+            fontSize: "clamp(46px, 11vw, 96px)",
             fontWeight: 400,
             background: "linear-gradient(135deg, #5c1520 0%, #8b2234 28%, #a83040 50%, #8b2234 72%, #5c1520 100%)",
             WebkitBackgroundClip: "text",
@@ -299,7 +300,7 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
             filter: "drop-shadow(0 0 18px rgba(139,34,52,0.18))",
           }}
         >
-          {brideName}
+          {inviteData.couple.brideFullName ?? brideName}
         </motion.h1>
 
         {/* Bride parent names */}

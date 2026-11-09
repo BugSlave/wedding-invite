@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description: social.description,
     images: [{ url: social.imagePath }],
     type: "website",
-    siteName: `${couple.groomName} & ${couple.brideName}`,
+    siteName: `${couple.groomFullName ?? couple.groomName} & ${couple.brideFullName ?? couple.brideName}`,
   },
   twitter: {
     card: "summary_large_image",

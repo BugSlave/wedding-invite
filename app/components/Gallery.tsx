@@ -176,7 +176,7 @@ export default function Gallery() {
           margin:        0,
           letterSpacing: "-0.01em",
         }}>
-          {inviteData.couple.groomName} &amp; {inviteData.couple.brideName}
+          {inviteData.couple.groomFullName ?? inviteData.couple.groomName} &amp; {inviteData.couple.brideFullName ?? inviteData.couple.brideName}
         </h2>
         <div style={{
           display:        "flex",

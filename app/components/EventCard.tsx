@@ -117,7 +117,7 @@ export default function EventCard({
   const { month, day, year, dayOfWeek } = parseDateParts(event.dateTimeISO);
   const city = extractCity(event.address);
 
-  const names = `${couple.groomName} & ${couple.brideName}`;
+  const names = `${couple.groomFullName ?? couple.groomName} & ${couple.brideFullName ?? couple.brideName}`;
 
   // Venue name + city so Google Maps finds the actual place, not just the city.
   const destination = `${event.venue}, ${event.address}`;
@@ -189,7 +189,7 @@ export default function EventCard({
             WebkitTextFillColor:  "transparent",
             backgroundClip: "text",
           }}>
-            Shaadi Pass
+            Wedding Pass
           </span>
           <span style={{ color: "var(--ec-accent)", fontSize: 9 }}>✦</span>
         </div>
@@ -406,7 +406,7 @@ export default function EventCard({
           whiteSpace: "nowrap",
         }}>
           <span style={{ color: "var(--ec-accent)", marginRight: 6 }}>ꕥ</span>
-          {couple.groomName} &amp; {couple.brideName}
+          {couple.groomFullName ?? couple.groomName} &amp; {couple.brideFullName ?? couple.brideName}
           <span style={{ color: "var(--ec-accent)", marginLeft: 6 }}>ꕥ</span>
         </p>
 

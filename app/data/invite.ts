@@ -14,6 +14,8 @@ export const inviteData: InviteData = {
   couple: {
     brideName: "Mansi",
     groomName: "Ram",
+    brideFullName: "Mansi Arora",
+    groomFullName: "Ram Bhasin",
     brideParents: {
       father: "Narendra Arora",
     },
@@ -26,6 +28,9 @@ export const inviteData: InviteData = {
     brideImage: "",
     groomImage: "",
   },
+
+  // Names for the closing "Sharing the joy" section (hidden while empty).
+  sharingTheJoy: [],
 
   howTheyMet: "[HOW THEY MET — real story goes here]",
 
@@ -99,16 +104,9 @@ export const inviteData: InviteData = {
     },
   ],
 
-  rsvp: {
-    enabled: true,
-    askGuestCount: true,
-    maxGuestsPerRSVP: 5,
-    askMessage: true,
-  },
-
   social: {
-    title: "Ram & Mansi are getting engaged!",
-    description: "Join us to celebrate on December 8, 2026 at Club Riviera, Bareilly.",
+    title: "Ram Bhasin & Mansi Arora — Wedding Invitation 💌",
+    description: "Join us for the Ring Ceremony on December 8 and the Haldi & Wedding on December 10, 2026 in Bareilly.",
     imagePath: "/images/social-preview.jpg",
     themeColor: "#D97757",
   },
