@@ -7,6 +7,7 @@ import ScratchDate from "./ScratchDate";
 import DiyaFlame, { getFlameInfo } from "./DiyaFlame";
 import SectionConfetti from "./SectionConfetti";
 import { useInvite } from "./InviteContext";
+import ProperName from "./ProperName";
 
 function useCountdown(iso: string) {
   const calc = () => {
@@ -248,10 +249,12 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
             backgroundClip: "text",
             lineHeight: 1.15,
             margin: 0,
+            padding: "0.25em 0.15em 0.12em",
+            marginBlock: "-0.25em -0.12em",
             filter: "drop-shadow(0 0 18px rgba(139,34,52,0.18))",
           }}
         >
-          {inviteData.couple.groomFullName ?? groomName}
+          <ProperName name={inviteData.couple.groomFullName ?? groomName} />
         </motion.h1>
 
         {/* Groom parent names */}
@@ -297,10 +300,12 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
             backgroundClip: "text",
             lineHeight: 1.15,
             margin: 0,
+            padding: "0.25em 0.15em 0.12em",
+            marginBlock: "-0.25em -0.12em",
             filter: "drop-shadow(0 0 18px rgba(139,34,52,0.18))",
           }}
         >
-          {inviteData.couple.brideFullName ?? brideName}
+          <ProperName name={inviteData.couple.brideFullName ?? brideName} />
         </motion.h1>
 
         {/* Bride parent names */}
@@ -344,7 +349,7 @@ export default function HeroSection({ brideName, groomName, date, venue, onRevea
             fontFamily: "var(--font-display), serif",
           }}
         >
-          are getting engaged &mdash; and we&rsquo;d love for you to be there.
+          are getting married &mdash; and we&rsquo;d love for you to be there.
         </motion.p>
 
         {/* Scratch date with Indian frame */}

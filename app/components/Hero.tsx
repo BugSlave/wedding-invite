@@ -39,7 +39,7 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="mt-6 max-w-md text-lg text-[var(--color-muted)]"
       >
-        are getting engaged &mdash; and we&rsquo;d love for you to be there.
+        are getting married &mdash; and we&rsquo;d love for you to be there.
       </motion.p>
 
       <motion.div

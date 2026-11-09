@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useInvite } from "./InviteContext";
+import ProperName from "./ProperName";
 import StoryChapter from "@/app/components/StoryChapter";
 
 const GOLD = "linear-gradient(135deg, #5c1520 0%, #8b2234 28%, #a83040 50%, #8b2234 72%, #5c1520 100%)";
@@ -112,11 +113,12 @@ function CoupleCircle({
           WebkitBackgroundClip: "text",
           WebkitTextFillColor:  "transparent",
           backgroundClip:       "text",
-          margin:               0,
+          padding:              "0.3em 0.15em 0.12em",
+          margin:               "-0.3em 0 -0.12em",
           filter:               "drop-shadow(0 0 10px rgba(139,34,52,0.15))",
         }}
       >
-        {name}
+        <ProperName name={name} />
       </motion.p>
     </div>
   );
@@ -206,7 +208,7 @@ export default function Story() {
             fontWeight: 700,
           }}
         >
-          The Story of
+          Our Story
         </motion.p>
 
         <GoldDivider />

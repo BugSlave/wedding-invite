@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useInvite } from "./InviteContext";
 import InvitationPage from "./InvitationPage";
 import { startMusic } from "@/lib/music";
+import ProperName from "./ProperName";
 
 const MAX_W = 460;
 const MAX_H = 300;
@@ -373,7 +374,7 @@ export default function EnvelopeReveal() {
                   {/* Names on the envelope front, below the wax seal */}
                   <p style={{
                     position: "absolute", left: 12, right: 12, bottom: Math.round(H * 0.07),
-                    margin: 0, textAlign: "center", lineHeight: 1.1,
+                    margin: 0, textAlign: "center", lineHeight: 1.1, padding: "0.3em 0.15em 0.15em",
                     fontFamily: "var(--font-accent), cursive",
                     fontSize: `clamp(22px, ${(28 / MAX_W) * 100}vw, 28px)`,
                     background: "linear-gradient(135deg, #5c1520 0%, #8b2234 40%, #a83040 50%, #8b2234 60%, #5c1520 100%)",
@@ -381,7 +382,7 @@ export default function EnvelopeReveal() {
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                   }}>
-                    {couple.groomFullName ?? couple.groomName} &amp; {couple.brideFullName ?? couple.brideName}
+                    <ProperName name={couple.groomFullName ?? couple.groomName} /> &amp; <ProperName name={couple.brideFullName ?? couple.brideName} />
                   </p>
                 </div>
 
